@@ -27,6 +27,7 @@ Paràmetre |  Descripció
 --- | ---
 VALID_CLIENT_ID | Id de client Vàlid 
 VALID_CLIENT_SECRET | Secret del client Vàlid  
+VALID_ENVIRONMENT | Entorn 'pre' o 'pro'  
 
 
 Alternativament, pots publicar l'arxiu de configuració del paquet amb la comanda:

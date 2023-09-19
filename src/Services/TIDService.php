@@ -23,7 +23,7 @@ class TIDService{
         $state=$state?$state:$this->cryptOriginUrl();
 
         // dump($this->getOriginUrl($state));
-        return "{$config["auth_url"]}?response_type=code&client_id={$config["client_id"]}&approval_prompt=auto&access_type={$config["access_type"]}&scope={$config["scope"]}&redirect_uri={$redirect_uri}&state={$state}";
+        return "{$config["environments"][$config["environment"]]["auth_url"]}?response_type=code&client_id={$config["client_id"]}&approval_prompt=auto&access_type={$config["access_type"]}&scope={$config["scope"]}&redirect_uri={$redirect_uri}&state={$state}";
         
     }
 
@@ -109,7 +109,7 @@ class TIDService{
      
         $client = new Client();
 
-        $response = $client->request('POST', $config["token_url"],  ['form_params'=>[
+        $response = $client->request('POST', $config["environments"][$config["environment"]]["token_url"],  ['form_params'=>[
             'code' => $code,
             'client_id' => $config["client_id"],
             'client_secret' => $config["client_secret"],
@@ -123,7 +123,7 @@ class TIDService{
             abort(401,$token_info->error);
         }else{
             //recojo info del usuario
-            $response = $client->request('GET', $config["user_url"],  ['query'=>[
+            $response = $client->request('GET', $config["environments"][$config["environment"]]["user_url"],  ['query'=>[
                 'AccessToken' => $token_info->access_token,
             ]]);
     
@@ -151,7 +151,7 @@ class TIDService{
         $config=config('tid');
         $client = new Client();
 
-        $client->request('GET', $config["logout_url"],  ['query'=>[
+        $client->request('GET', $config["environments"][$config["environment"]]["logout_url"],  ['query'=>[
             'token' => $this->getToken(),
         ]]);
 
