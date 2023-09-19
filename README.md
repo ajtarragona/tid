@@ -50,4 +50,58 @@ Route::middleware(['tid'])->group( function () {
 });
 ```
 
+Si volguéssim revocar la sessió de l'usuari, tenim disponible una ruta GET:
+`/ajtarragona/tid/logout` que té el nom `tid.logout`
 
+
+
+Podem accedir a la informació de l'usuari en sessió de diferents maneres:
+
+**A través d'una `Facade`:**
+```php
+use TID;
+...
+public  function  test(){
+    $usuari=TID::getUser();
+    ...
+}
+```
+
+Per Laravel < 5.6, cal registrar l'alias de la Facade a l'arxiu `config/app.php` :
+ 
+```php
+'aliases'  =>  [
+    ...
+    'TID'  =>  Ajtarragona\TID\Facades\TIDFacade::class
+]
+```
+
+  
+
+**Vía Injecció de dependències:**
+Als teus controlladors, helpers, model:
+
+
+```php
+use Ajtarragona\TID\Services\TIDService;
+...
+
+public  function  test(TIDService  $client){
+    $usuari=$client->getUser();
+    ...
+}
+```
+
+**Vía funció `helper`:**
+```php
+...
+public  function  test(){
+    $usuari=tid()->getUser();
+    ...
+}
+```
+
+Tenim disponibles els següents mètodes:
+- *getUser()* retorna la informació de l'usuari
+- *getToken()* retorna el token de l'usuari
+- *getAuth()* retorna tota la informació d'autenticació (suari i informació del token)
