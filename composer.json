@@ -1,0 +1,36 @@
+{
+    "name": "ajtarragona/tid",
+    "description": "Laravel package for AOC valid authentication",
+    "keywords": ["laravel", "aoc", "authentication"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Txomin Medrano Martorell",
+            "email": "tmedrano@tarragona.cat"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0.0",
+        "laravel/framework": "^6.0",
+        "fakerphp/faker": "^1.9.1",
+        "guzzlehttp/guzzle": "^6.3"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Ajtarragona\\TID\\": "./src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ajtarragona\\TID\\TIDServiceProvider"
+            ],
+            "aliases": {
+                "TID" : "Ajtarragona\\TID\\Facades\\TIDFacade"
+            }
+        }
+    }
+}

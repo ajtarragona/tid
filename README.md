@@ -1,2 +1,4 @@
-# tid
-Tarragona Indentitat Digital
+# Laravel AOC Valid
+
+
+php artisan vendor:publish --tag=ajtarragona-tid-assets --force

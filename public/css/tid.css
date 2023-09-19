@@ -1,0 +1,86 @@
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;
+
+0,400;0,500;0,800;1,400;1,500;1,800&display=swap);.login-container {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.login-form {
+  max-width: 355px;
+  box-shadow: rgba(249, 123, 101, 0.2) 0px 3px 3px -2px, rgba(249, 123, 101, 0.14) 0px 3px 4px 0px, rgba(249, 123, 101, 0.12) 0px 1px 8px 0px;
+  background-color: rgba(249, 123, 101, 0.1);
+  border-radius: 20px;
+  padding: 2em;
+  margin: 2em;
+}
+
+.login-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 2em;
+}
+
+.login-title h4 {
+  font-size: 24pt;
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+}
+
+.login-title .aoc-logo img {
+  width: 100px;
+}
+
+.validation-types {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 2em;
+}
+
+.validation-types li {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.validation-types li .label {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding-left: 12px;
+  padding-right: 12px;
+  text-overflow: ellipsis;
+}
+
+.validate-btn-container {
+  text-align: center;
+}
+
+.validate-btn {
+  background-color: #f97b65;
+  color: rgba(0, 0, 0, 0.87);
+  display: inline-block;
+  padding: 0.5em 1.5em;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.validate-btn:hover,
+.validate-btn:active {
+  background-color: #ec745f;
+}
+
+.validate-btn > span {
+  display: flex;
+  align-items: center;
+}
+
+.validate-btn > span img {
+  margin-left: 5px;
+}
+
