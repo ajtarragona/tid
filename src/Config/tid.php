@@ -1,7 +1,7 @@
 <?php
     return [
         
-        'environment' =>env('VALID_ENVIROMENT', 'pre'),
+        'environment' =>env('VALID_ENVIRONMENT', 'pre'),
         'environments' =>[
             'pre'=>[
                 'auth_url' => 'https://identitats-pre.aoc.cat/o/oauth2/auth',
