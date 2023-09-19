@@ -23,8 +23,8 @@ php artisan vendor:publish --tag=ajtarragona-tid-assets --force
 ## Configuració
 Pots configurar el paquet a través de l'arxiu `.env` de l'aplicació. Aquests son els parámetres disponibles :
 
-Paràmetre |  Descripció  
---- | --- | --- 
+Paràmetre |  Descripció
+--- | ---
 VALID_CLIENT_ID | Id de client Vàlid 
 VALID_CLIENT_SECRET | Secret del client Vàlid  
 
