@@ -13,10 +13,10 @@ class TIDController extends Controller
     public function login(Request $request){
         //mostrar página de login
         // dd("HOLA");
-        Artisan::call('vendor:publish', [
-            '--tag' => 'ajtarragona-tid-assets', 
-            '--force' => 1
-        ]);
+        // Artisan::call('vendor:publish', [
+        //     '--tag' => 'ajtarragona-tid-assets', 
+        //     '--force' => 1
+        // ]);
         return view('ajtarragona-tid::login');
     }   
 
@@ -25,6 +25,7 @@ class TIDController extends Controller
     public function logout(){
         // dd("LOGOUT");
         TID::deauthenticate();
+        return redirect()->back();
 
     }
 

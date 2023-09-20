@@ -20,7 +20,7 @@ class TIDAuth
         //si no esta autenticado, redirijo al formulario
         // dd(TID::isAuthenticated());
         if(!TID::isAuthenticated()){
-            return TID::showLoginForm();
+            return TID::showLoginPage();
         }else{
             return $next($request);
         }

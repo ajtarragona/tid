@@ -4,6 +4,7 @@ namespace Ajtarragona\TID\Services;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Crypt;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 
 class TIDService{
@@ -44,8 +45,30 @@ class TIDService{
         return $texto_desencriptado;
     }
 
-    public function showLoginForm(){
-       return response()->view('ajtarragona-tid::login');
+    public function showLoginPage(){
+        return response()->view('ajtarragona-tid::login');
+    }
+
+
+    public function renderLoginForm($options=[]){
+        if(!is_array($options)) $options=[];
+        return view('ajtarragona-tid::parts.login-form',$options)->render();
+    }
+    
+    public function renderUserInfo($options=[]){
+       $valid_user=$this->getUser();
+       if(!is_array($options)) $options=[];
+        return view('ajtarragona-tid::parts.user-info', array_merge($options,compact('valid_user')))->render();
+    }
+
+    public function renderTokenInfo($options=[]){
+        $valid_token=$this->getTokenInfo();
+        if(!is_array($options)) $options=[];
+        return view('ajtarragona-tid::parts.token-info',array_merge($options,compact('valid_token')))->render();
+    }
+    public function renderLogoutButton($options=[]){
+        if(!is_array($options)) $options=[];
+        return view('ajtarragona-tid::parts.logout-button',$options)->render();
     }
 
 
@@ -80,6 +103,10 @@ class TIDService{
     public function getToken(){
         $ret=$this->getAuth();
         return $ret["token"]["access_token"]??null;
+    }
+    public function getTokenInfo(){
+        $ret=$this->getAuth();
+        return $ret["token"]??null;
     }
 
  
@@ -146,15 +173,18 @@ class TIDService{
      */
     public function deAuthenticate(){
         $this->unsetAuth();
+        try{
+            $config=config('tid');
+            $client = new Client();
+            
+            $client->request('GET', $config["environments"][$config["environment"]]["logout_url"],  ['query'=>[
+                'token' => $this->getToken(),
+                ]]);
+        }catch(Exception $e){
+
+        }
+            
         return;
-
-        $config=config('tid');
-        $client = new Client();
-
-        $client->request('GET', $config["environments"][$config["environment"]]["logout_url"],  ['query'=>[
-            'token' => $this->getToken(),
-        ]]);
-
         
     }
 

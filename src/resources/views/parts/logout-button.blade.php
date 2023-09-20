@@ -1,0 +1,1 @@
+<a class="{{ $class??''}}" href="{{ route('tid.logout')}}">{!! $label??'Logout'!!}</a>

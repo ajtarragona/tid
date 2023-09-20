@@ -3,6 +3,7 @@
 namespace Ajtarragona\TID;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class TIDServiceProvider extends ServiceProvider
 {
@@ -45,7 +46,23 @@ class TIDServiceProvider extends ServiceProvider
         ], 'ajtarragona-tid-assets');
 
       
-        
+         //registra directiva sortablecomponent
+         Blade::directive('validLoginForm',  function ($expression) {
+            return "<?php validLoginForm({$expression}); ?>";
+         });
+
+         //registra directiva sortablecomponent
+         Blade::directive('validUserInfo',  function ($expression) {
+            return "<?php echo validUserInfo({$expression}); ?>";
+        });
+         //registra directiva sortablecomponent
+         Blade::directive('validTokenInfo',  function ($expression) {
+            return "<?php echo validTokenInfo({$expression}); ?>";
+        });
+         //registra directiva sortablecomponent
+         Blade::directive('validLogoutButton',  function ($expression) {
+            return "<?php echo validLogoutButton({$expression}); ?>";
+        });
 
         
 
