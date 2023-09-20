@@ -48,7 +48,7 @@ class TIDServiceProvider extends ServiceProvider
       
          //registra directiva sortablecomponent
          Blade::directive('validLoginForm',  function ($expression) {
-            return "<?php validLoginForm({$expression}); ?>";
+            return "<?php echo validLoginForm({$expression}); ?>";
          });
 
          //registra directiva sortablecomponent
