@@ -67,6 +67,7 @@ class TIDController extends Controller
             }
         }else{
             //algo ha pasao
+            abort(400,"Petició incorrecta");
         }
 
         
