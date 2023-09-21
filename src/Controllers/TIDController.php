@@ -5,7 +5,7 @@ namespace Ajtarragona\TID\Controllers;
 use Illuminate\Http\Request;
 use \Artisan;
 use TID;
-
+use Illuminate\Support\Str;
 
 class TIDController extends Controller
 {
@@ -54,29 +54,25 @@ class TIDController extends Controller
        
         // dd($request->all());
         $return_url=TID::getOriginUrl($request->state);
-                
-        if($request->error){
-            if($request->error == "SESSION_CANCEL"){
-                return response()->redirectTo($return_url);
-            }
-            //Trato el error
-            // abort(500, $request->error);
-            return response()->redirectTo($return_url)."?error=UNKNOWN_ERROR";
+        $has_params=Str::contains($return_url,"?");
 
+        if($request->error){
+            if($request->error != "SESSION_CANCEL"){
+                $return_url.=($has_params?'&':'?').'error=UNKNOWN_ERROR';
+            }
         }else if($request->code){
             //aquí se llama desde, pasando un codigo generado
             //Con este código obtendré un token y a info del usuario 
             $ret=TID::authenticate($request->code,$request->state);
             // dd($ret);
-            if($ret){
-                return response()->redirectTo($return_url);
-            }else{
-                return response()->redirectTo($return_url)."?error=AUTH_ERROR";
+            if(!$ret){
+                $return_url.=($has_params?'&':'?').'error=AUTH_ERROR';
             }
         }else{
-            //algo ha pasao
-            return response()->redirectTo($return_url)."?error=UNKNOWN_ERROR";
+            $return_url.=($has_params?'&':'?').'error=UNKNOWN_ERROR';
         }
+
+        return response()->redirectTo($return_url);
 
         
     }
