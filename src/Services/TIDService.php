@@ -64,7 +64,7 @@ class TIDService{
     public function renderTokenInfo($options=[]){
         $valid_token=$this->getTokenInfo();
         if(!is_array($options)) $options=[];
-        return view('ajtarragona-tid::parts.token-info',array_merge($options,compact('valid_token')))->render();
+        return view('ajtarragona-tid::parts.token-info',array_merge($options, compact('valid_token')))->render();
     }
     public function renderLogoutButton($options=[]){
         if(!is_array($options)) $options=[];
@@ -84,6 +84,7 @@ class TIDService{
      * Retorna la info de  sesion
      */
     public function getAuth(){
+        // dump('getAuth',self::$SESSION_NAME,session(self::$SESSION_NAME,null) );
         return session(self::$SESSION_NAME,null);
         
     }
@@ -94,19 +95,27 @@ class TIDService{
      */
     public function getUser(){
         $ret=$this->getAuth();
-        return $ret["user"]??null;
+        if($ret && isset($ret["user"])){
+            return (is_array($ret["user"])) ? json_decode(json_encode($ret["user"]), FALSE) : $ret["user"] ;
+        }
+        return null;
     }
 
     /**
      * Retorna la token de sesion
      */
     public function getToken(){
+        // dump('getToken');
         $ret=$this->getAuth();
-        return $ret["token"]["access_token"]??null;
+        // dd($ret);
+        return $this->getTokenInfo()->access_token??null;
     }
     public function getTokenInfo(){
         $ret=$this->getAuth();
-        return $ret["token"]??null;
+        if($ret && isset($ret["token"])){
+            return (is_array($ret["token"])) ? json_decode(json_encode($ret["token"]), FALSE) : $ret["token"] ;
+        }
+        return null;
     }
 
  
@@ -135,33 +144,36 @@ class TIDService{
         $config=config('tid');
      
         $client = new Client();
-
-        $response = $client->request('POST', $config["environments"][$config["environment"]]["token_url"],  ['form_params'=>[
-            'code' => $code,
-            'client_id' => $config["client_id"],
-            'client_secret' => $config["client_secret"],
-            'redirect_uri'  => $this->getRedirectUri(),
-            'grant_type' => 'authorization_code',
-        ]]);
-
-        $token_info = json_decode($response->getBody());
-
-        if($token_info->error??null){
-            abort(401,$token_info->error);
-        }else{
-            //recojo info del usuario
-            $response = $client->request('GET', $config["environments"][$config["environment"]]["user_url"],  ['query'=>[
-                'AccessToken' => $token_info->access_token,
+        try{
+            $response = $client->request('POST', $config["environments"][$config["environment"]]["token_url"],  ['form_params'=>[
+                'code' => $code,
+                'client_id' => $config["client_id"],
+                'client_secret' => $config["client_secret"],
+                'redirect_uri'  => $this->getRedirectUri(),
+                'grant_type' => 'authorization_code',
             ]]);
-    
-            $user_info=json_decode($response->getBody());
-    
-            if($user_info->status=="ko"){
-                abort(401,$user_info->error);
+
+            $token_info = json_decode($response->getBody());
+
+            if($token_info->error??null){
+                abort(401,$token_info->error);
             }else{
-                $this->setAuth($token_info, $user_info);
-                return true;
+                //recojo info del usuario
+                $response = $client->request('GET', $config["environments"][$config["environment"]]["user_url"],  ['query'=>[
+                    'AccessToken' => $token_info->access_token,
+                ]]);
+        
+                $user_info=json_decode($response->getBody());
+        
+                if($user_info->status=="ko"){
+                    abort(401,$user_info->error);
+                }else{
+                    $this->setAuth($token_info, $user_info);
+                    return true;
+                }
             }
+        }catch(Exception $e){
+            // dd($e);
         }
         return false;
         
@@ -172,16 +184,18 @@ class TIDService{
      * Se deautentica en Valid 
      */
     public function deAuthenticate(){
-        $this->unsetAuth();
+        
         try{
             $config=config('tid');
             $client = new Client();
             
-            $client->request('GET', $config["environments"][$config["environment"]]["logout_url"],  ['query'=>[
-                'token' => $this->getToken(),
-                ]]);
+            $client->request('GET', $config["environments"][$config["environment"]]["revoke_url"]."?token=".$this->getToken());
+            $client->request('GET', $config["environments"][$config["environment"]]["logout_url"]."?token=".$this->getToken());
+            $this->unsetAuth();
         }catch(Exception $e){
-
+            // dd($e);
+            $this->unsetAuth();
+            
         }
             
         return;

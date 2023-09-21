@@ -52,22 +52,30 @@ class TIDController extends Controller
     public function handleReponse(Request $request)
     {
        
+        // dd($request->all());
+        $return_url=TID::getOriginUrl($request->state);
+                
         if($request->error){
+            if($request->error == "SESSION_CANCEL"){
+                return response()->redirectTo($return_url);
+            }
             //Trato el error
-            abort(500, $request->error);
+            // abort(500, $request->error);
+            return response()->redirectTo($return_url)."?error=UNKNOWN_ERROR";
+
         }else if($request->code){
             //aquí se llama desde, pasando un codigo generado
             //Con este código obtendré un token y a info del usuario 
             $ret=TID::authenticate($request->code,$request->state);
+            // dd($ret);
             if($ret){
-                $return_url=TID::getOriginUrl($request->state);
                 return response()->redirectTo($return_url);
             }else{
-                abort(500,"Error desconegut");
+                return response()->redirectTo($return_url)."?error=AUTH_ERROR";
             }
         }else{
             //algo ha pasao
-            abort(400,"Petició incorrecta");
+            return response()->redirectTo($return_url)."?error=UNKNOWN_ERROR";
         }
 
         

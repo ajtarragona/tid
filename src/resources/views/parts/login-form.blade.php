@@ -10,6 +10,10 @@
             <p>
                 Permet la identificació mitjançant qualsevol dels mètodes compatibles amb la plataforma (alguns mètodes requereixen un registre previ)
             </p>
+
+            @if(request()->error)
+                <div class="login-error">{{ request()->error }}</div>
+            @endif
             <ul class="validation-types">
                 
                 <li >

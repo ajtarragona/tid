@@ -7,13 +7,15 @@
                 'auth_url' => 'https://identitats-pre.aoc.cat/o/oauth2/auth',
                 'token_url' => 'https://identitats-pre.aoc.cat/o/oauth2/token',
                 'user_url' => 'https://identitats-pre.aoc.cat/serveis-rest/getUserInfo',
+                'revoke_url' => 'https://identitats-pre.aoc.cat/o/oauth2/revoke',
                 'logout_url' => 'https://identitats-pre.aoc.cat/o/oauth2/logout',
-
+                
             ],
             'pro'=>[
                 'auth_url' => 'https://identitats.aoc.cat/o/oauth2/auth',
                 'token_url' => 'https://identitats.aoc.cat/o/oauth2/token',
                 'user_url' => 'https://identitats.aoc.cat/serveis-rest/getUserInfo',
+                'revoke_url' => 'https://identitats.aoc.cat/o/oauth2/revoke',
                 'logout_url' => 'https://identitats.aoc.cat/o/oauth2/logout',
             ]
         ],
