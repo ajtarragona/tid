@@ -1,6 +1,7 @@
 <?php
     return [
         
+        'log' =>env('VALID_LOG', false),
         'environment' =>env('VALID_ENVIRONMENT', 'pre'),
         'environments' =>[
             'pre'=>[

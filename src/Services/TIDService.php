@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Crypt;
 use Exception;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class TIDService{
 
@@ -145,27 +146,46 @@ class TIDService{
      
         $client = new Client();
         try{
-            $response = $client->request('POST', $config["environments"][$config["environment"]]["token_url"],  ['form_params'=>[
+
+            $url=$config["environments"][$config["environment"]]["token_url"];
+            $params=[
                 'code' => $code,
                 'client_id' => $config["client_id"],
                 'client_secret' => $config["client_secret"],
                 'redirect_uri'  => $this->getRedirectUri(),
                 'grant_type' => 'authorization_code',
-            ]]);
+            ];
+
+            if($config["log"]) Log::debug('TID. Calling POST: '. $url );
+            if($config["log"]) Log::debug('TID. Parameters: '. json_encode($params, JSON_PRETTY_PRINT) );
+
+            $response = $client->request('POST', $url,  ['form_params'=>$params]);
 
             $token_info = json_decode($response->getBody());
-
+            if($config["log"]) Log::debug('TID. Return: '. json_encode($token_info, JSON_PRETTY_PRINT)  );
+            
             if($token_info->error??null){
+                if($config["log"]) Log::debug('TID. Error: '. $token_info->error );
+    
                 abort(401,$token_info->error);
             }else{
                 //recojo info del usuario
-                $response = $client->request('GET', $config["environments"][$config["environment"]]["user_url"],  ['query'=>[
+                $url=$config["environments"][$config["environment"]]["user_url"];
+                $params=[
                     'AccessToken' => $token_info->access_token,
-                ]]);
+                ];
+                if($config["log"]) Log::debug('TID. Calling POST: '. $url );
+                if($config["log"]) Log::debug('TID. Parameters: '. json_encode($params, JSON_PRETTY_PRINT) );
+    
+                $response = $client->request('GET', $url,  ['query'=>$params]);
         
                 $user_info=json_decode($response->getBody());
-        
-                if($user_info->status=="ko"){
+                if($config["log"]) Log::debug('TID. Return: '. json_encode($user_info, JSON_PRETTY_PRINT)  );
+                if(!$user_info){
+                    if($config["log"]) Log::debug('TID. Error' );
+                    abort(401);
+                }else if($user_info->status=="ko"){
+                    if($config["log"]) Log::debug('TID. Error: '. $token_info->error );
                     abort(401,$user_info->error);
                 }else{
                     $this->setAuth($token_info, $user_info);
@@ -174,6 +194,8 @@ class TIDService{
             }
         }catch(Exception $e){
             // dd($e);
+            if($config["log"]) Log::debug('TID. Error: '. $e->getMessage() );
+                
         }
         return false;
         
