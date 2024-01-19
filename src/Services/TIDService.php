@@ -174,7 +174,7 @@ class TIDService{
                 $params=[
                     'AccessToken' => $token_info->access_token,
                 ];
-                if($config["log"]) Log::debug('TID. Calling POST: '. $url );
+                if($config["log"]) Log::debug('TID. Calling GET: '. $url );
                 if($config["log"]) Log::debug('TID. Parameters: '. json_encode($params, JSON_PRETTY_PRINT) );
     
                 $response = $client->request('GET', $url,  ['query'=>$params]);
