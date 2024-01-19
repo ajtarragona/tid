@@ -3,6 +3,16 @@
 $primary: #f97b65;
 $alt: #ec745f;
 
+.test-mode-warning{
+    color:#855834;
+    border:1px solid #ee9247;
+    background-color: rgba(#ee9247,0.5);
+    padding:1em;
+    text-align: center;
+    border-radius: 20px;
+    margin-bottom:1em;
+
+}
 .login-container{
     font-family: 'Montserrat', sans-serif;
     display:flex;
@@ -76,7 +86,10 @@ $alt: #ec745f;
     border-radius:25px;
     text-decoration: none;
     font-weight: bold;
-
+    font-family: 'Montserrat', sans-serif;
+    border-width: 0px;
+    font-size:12pt;
+    
     &:hover,
     &:active{
         background-color: $alt;
@@ -90,4 +103,18 @@ $alt: #ec745f;
             margin-left:5px;
         }
     }
+}
+
+.form-control{
+    border:1px solid $primary;
+    background-color: white;
+    padding:.5em; 
+    border-radius:10px;
+    font-size:14pt;
+    display:block;
+    
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom:.5em;
+
 }

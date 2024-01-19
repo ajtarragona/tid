@@ -2,6 +2,7 @@
     return [
         
         'log' =>env('VALID_LOG', false),
+        'test_mode' => env('TID_TEST_MODE', false),
         'environment' =>env('VALID_ENVIRONMENT', 'pre'),
         'environments' =>[
             'pre'=>[

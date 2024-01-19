@@ -29,22 +29,23 @@ class TIDController extends Controller
 
     }
 
-    public function setsession(){
+    public function setsession(Request $request){
+        if(config('tid.test_mode')){
+            // dd($request->all());
+            TID::setAuth([
+                "access_token"=>"dummy_token",
+                "refresh_token"=>"dummy_token_refresh",
+                "expires_in"=>55,
+                "token_type"=>"Bearer",
 
-        TID::setAuth([
-            "access_token"=>"tokennnnn",
-            "refresh_token"=>"refressssh",
-            "expires_in"=>55,
-            "token_type"=>"Bearer",
-
-        ],[
-            "identifier"=>"IDDDD",
-            "phone"=>"phoneeeeee",
-            "name"=>"Nommmm",
-            "surname1"=>"Cognommmmm",
-            "surname2"=>"Cognommmmm2222",
-            "email"=>"Emailllll",
-        ]);
+            ],
+                $request->except('_token')
+             );
+             
+        }
+        
+        return redirect()->back(); 
+        
 
     }
 

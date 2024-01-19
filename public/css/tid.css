@@ -1,6 +1,16 @@
 @import url(https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;
 
-0,400;0,500;0,800;1,400;1,500;1,800&display=swap);.login-container {
+0,400;0,500;0,800;1,400;1,500;1,800&display=swap);.test-mode-warning {
+  color: #855834;
+  border: 1px solid #ee9247;
+  background-color: rgba(238, 146, 71, 0.5);
+  padding: 1em;
+  text-align: center;
+  border-radius: 20px;
+  margin-bottom: 1em;
+}
+
+.login-container {
   font-family: "Montserrat", sans-serif;
   display: flex;
   justify-content: center;
@@ -76,6 +86,9 @@
   border-radius: 25px;
   text-decoration: none;
   font-weight: bold;
+  font-family: "Montserrat", sans-serif;
+  border-width: 0px;
+  font-size: 12pt;
 }
 
 .validate-btn:hover,
@@ -90,5 +103,17 @@
 
 .validate-btn > span img {
   margin-left: 5px;
+}
+
+.form-control {
+  border: 1px solid #f97b65;
+  background-color: white;
+  padding: 0.5em;
+  border-radius: 10px;
+  font-size: 14pt;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 0.5em;
 }
 
