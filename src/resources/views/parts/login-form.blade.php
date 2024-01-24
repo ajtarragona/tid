@@ -1,19 +1,16 @@
-<div class="login-container">
+<div class="login-container ">
+    <h1 >Verifiqueu la vostra identitat</h1>
+
 
     <div class="login-form">
         
-            <section class="login-title">
-                <h4 >Vàlid</h4>
-                <div class="aoc-logo"><img src="{{asset('vendor/ajtarragona/img/tid/logo-aoc.svg')}}"/></div>
-            </section>
+            
             
             @if(config('tid.test_mode'))
             <div class="test-mode-warning">
                 <strong>TEST MODE</strong>
 
-                <p>
-                    Introdueix manualment les dades que es guardaran a sessió i podràs fer servir a l'aplicació.
-                </p>
+                <p>Introdueix manualment les teves dades.</p>
             </div>
             <form method="post" action="{{ route('tid.setsession')}}">
                 @csrf
@@ -23,8 +20,8 @@
                 <input type="text" placeholder="Cognom2" name="surname2" class="form-control "/>
                 <input type="email" placeholder="Email" name="email" class="form-control "/>
                 <input type="text" placeholder="Phone" name="phone" class="form-control "/>
-
-                <section class="validate-btn-container">
+                
+                <section class="validate-btn-container ">
                         <button type="submit" class="validate-btn" tabindex="0" aria-disabled="false">
                             <span class="">
                                 <span >Accedir</span>
@@ -35,6 +32,10 @@
                     
             </form>
             @else
+                <section class="login-title">
+                    <h4 >Vàlid</h4>
+                    <div class="aoc-logo"><img src="{{asset('vendor/ajtarragona/img/tid/logo-aoc.svg')}}"/></div>
+                </section>
                 <p>
                     <strong>Identificació mitjançant la plataforma Vàlid del Consorci Administració Oberta de Catalunya</strong>
                 </p>

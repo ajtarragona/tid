@@ -39,7 +39,11 @@ class TIDController extends Controller
                 "token_type"=>"Bearer",
 
             ],
-                $request->except('_token')
+                array_merge($request->except('_token'),[
+                    'identifierType'=>1,
+                    'method '=>'certificat',
+                    'certificateType'=>0
+                ])
              );
              
         }

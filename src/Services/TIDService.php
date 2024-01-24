@@ -1,6 +1,7 @@
 <?php
 namespace Ajtarragona\TID\Services;
 
+use Ajtarragona\TID\Models\TIDUser;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Crypt;
@@ -61,6 +62,7 @@ class TIDService{
        if(!is_array($options)) $options=[];
         return view('ajtarragona-tid::parts.user-info', array_merge($options,compact('valid_user')))->render();
     }
+   
 
     public function renderTokenInfo($options=[]){
         $valid_token=$this->getTokenInfo();
@@ -97,7 +99,8 @@ class TIDService{
     public function getUser(){
         $ret=$this->getAuth();
         if($ret && isset($ret["user"])){
-            return (is_array($ret["user"])) ? json_decode(json_encode($ret["user"]), FALSE) : $ret["user"] ;
+            return new TIDUser($ret["user"]);
+            // return (is_array($ret["user"])) ? new json_decode(json_encode($ret["user"]), FALSE) : $ret["user"] ;
         }
         return null;
     }
@@ -111,6 +114,7 @@ class TIDService{
         // dd($ret);
         return $this->getTokenInfo()->access_token??null;
     }
+    
     public function getTokenInfo(){
         $ret=$this->getAuth();
         if($ret && isset($ret["token"])){
