@@ -16,7 +16,7 @@
                 @csrf
                 <input type="text" placeholder="NIF" name="identifier" class="form-control " required/>
                 <input type="text" placeholder="Name" name="name" class="form-control " required/>
-                <input type="text" placeholder="Cognom1" name="surname1" class="form-control "/>
+                <input type="text" placeholder="Cognom1" name="surname1" class="form-control " required/>
                 <input type="text" placeholder="Cognom2" name="surname2" class="form-control "/>
                 <input type="email" placeholder="Email" name="email" class="form-control "/>
                 <input type="text" placeholder="Phone" name="phone" class="form-control "/>

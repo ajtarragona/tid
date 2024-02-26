@@ -21,9 +21,11 @@
 }
 
 .login-container > h1 {
-  font-size: 3.5em;
+  font-size: 3em;
   font-weight: normal;
   color: rgba(38, 50, 56, 0.92);
+  padding: 0 2rem;
+  text-align: center;
 }
 
 .login-container .login-form {

@@ -30,6 +30,7 @@ class TIDController extends Controller
     }
 
     public function setsession(Request $request){
+        // dd($request->all());
         if(config('tid.test_mode')){
             // dd($request->all());
             TID::setAuth([

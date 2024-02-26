@@ -9,7 +9,7 @@ $alt: #ec745f;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-
+    
     .test-mode-warning{
         color:#f97b65;
         // border:1px solid #f97b65;
@@ -25,9 +25,11 @@ $alt: #ec745f;
 
 
     > h1{
-        font-size:3.5em;
+        font-size:3em;
         font-weight: normal;
         color:rgba(38, 50, 56, 0.92);
+        padding:0 2rem;
+        text-align: center;;
     }
 
     .login-form{
