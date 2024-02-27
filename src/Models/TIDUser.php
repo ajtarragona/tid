@@ -17,6 +17,11 @@ class TIDUser
         if($this->identifier && !$this->identifierType){
             $this->identifierType=self::validaNifCifNie($this->identifier);
         }
+        if($this->surnames && !$this->surname1 ){
+            $sur=explode(" ",$this->surnames);
+            $this->surname1=  $sur[0] ??null;
+            $this->surname2=  $sur[1] ??null;
+        }
     }
     
 
