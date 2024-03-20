@@ -32,6 +32,10 @@ class TIDController extends Controller
     public function setsession(Request $request){
         // dd($request->all());
         if(config('tid.test_mode')){
+            $surnames=explode(" ",$request->surnames);
+            $surname1=$surnames[0];
+            $surname2=$surnames[1] ??null;
+            
             // dd($request->all());
             TID::setAuth([
                 "access_token"=>"dummy_token",
@@ -41,6 +45,8 @@ class TIDController extends Controller
 
             ],
                 array_merge($request->except('_token'),[
+                    'surname1'=>$surname1,
+                    'surname2'=>$surname2,
                     'identifierType'=>1,
                     'method '=>'certificat',
                     'certificateType'=>0

@@ -17,10 +17,13 @@
                 <input type="text" placeholder="NIF" name="identifier" class="form-control " required/>
                 <input type="text" placeholder="Name" name="name" class="form-control " required/>
                 <input type="text" placeholder="Cognoms" name="surnames" class="form-control " required/>
-                <input type="text" placeholder="Cognom1" name="surname1" class="form-control " />
-                <input type="text" placeholder="Cognom2" name="surname2" class="form-control "/>
+                {{-- <input type="text" placeholder="Cognom1" name="surname1" class="form-control " />
+                <input type="text" placeholder="Cognom2" name="surname2" class="form-control "/> --}}
                 <input type="email" placeholder="Email" name="email" class="form-control "/>
                 <input type="text" placeholder="Phone" name="phone" class="form-control "/>
+                <hr/>
+                <input type="text" placeholder="CIF" name="companyId" class="form-control " />
+                <input type="text" placeholder="Raó Social" name="companyName" class="form-control " />
                 
                 <section class="validate-btn-container ">
                         <button type="submit" class="validate-btn" tabindex="0" aria-disabled="false">
