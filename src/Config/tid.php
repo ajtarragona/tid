@@ -12,8 +12,7 @@
             'logout'=>'o/oauth2/logout',
         ],
         'environments' =>[
-
-            'pre'=>env('VALID_PRE_URL','https://identitats-pre.aoc.cat'), //https://valid-pre.aoc.cat/o/oauth2 
+            'pre'=>env('VALID_PRE_URL','https://valid-pre.aoc.cat'), //https://valid-pre.aoc.cat/o/oauth2 
             // [
             //     'base_url' =>'https://identitats-pre.aoc.cat', //https://valid-pre.aoc.cat/o/oauth2
             //     'auth_url' => 'https://identitats-pre.aoc.cat/o/oauth2/auth',
@@ -23,7 +22,7 @@
             //     'logout_url' => 'https://identitats-pre.aoc.cat/o/oauth2/logout',
                 
             // ],
-            'pro'=>env('VALID_PRO_URL','https://identitats.aoc.cat'), //https://valid.aoc.cat/o/oauth2
+            'pro'=>env('VALID_PRO_URL','https://valid.aoc.cat'), //https://valid.aoc.cat/o/oauth2
             // [
             //     'base_url' =>'https://identitats.aoc.cat', //https://valid.aoc.cat/o/oauth2
             //     'auth_url' => 'https://identitats.aoc.cat/o/oauth2/auth',
