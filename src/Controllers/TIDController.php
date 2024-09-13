@@ -73,7 +73,7 @@ class TIDController extends Controller
                 $return_url.=($has_params?'&':'?').'error=UNKNOWN_ERROR';
             }
         }else if($request->code){
-            //aquí se llama desde, pasando un codigo generado
+            //aquí se llama desde valid, pasando un codigo generado
             //Con este código obtendré un token y a info del usuario 
             $ret=TID::authenticate($request->code,$request->state);
             // dd($ret);

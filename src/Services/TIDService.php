@@ -14,6 +14,13 @@ class TIDService{
     public static $SESSION_NAME = 'aoc_valid_info';
 
 
+
+    public function makeBaseUrl($type, $env=null){
+        $config=config('tid');
+        return $config["environments"][$env?$env:$config["environment"]] . '/'. $config['paths'][$type]; 
+
+    }
+
     public function makeValidUrl($state=null){
         
         $config=config('tid');
@@ -26,7 +33,7 @@ class TIDService{
         $state=$state?$state:$this->cryptOriginUrl();
 
         // dump($this->getOriginUrl($state));
-        return "{$config["environments"][$config["environment"]]["auth_url"]}?response_type=code&client_id={$config["client_id"]}&approval_prompt=auto&access_type={$config["access_type"]}&scope={$config["scope"]}&redirect_uri={$redirect_uri}&state={$state}";
+        return $this->makeBaseUrl('auth')."?response_type=code&client_id={$config["client_id"]}&approval_prompt=auto&access_type={$config["access_type"]}&scope={$config["scope"]}&redirect_uri={$redirect_uri}&state={$state}";
         
     }
 
@@ -151,7 +158,9 @@ class TIDService{
         $client = new Client();
         try{
 
-            $url=$config["environments"][$config["environment"]]["token_url"];
+            $url=$this->makeBaseUrl('token');
+            
+
             $params=[
                 'code' => $code,
                 'client_id' => $config["client_id"],
@@ -173,8 +182,14 @@ class TIDService{
     
                 abort(401,$token_info->error);
             }else{
+
+                //recomiendan hacer el logout aqui
+
+                $client->request('GET', $this->makeBaseUrl('logout')."?token=".$token_info->access_token);
+            
+
                 //recojo info del usuario
-                $url=$config["environments"][$config["environment"]]["user_url"];
+                $url=$this->makeBaseUrl('user');
                 $params=[
                     'AccessToken' => $token_info->access_token,
                 ];
@@ -215,8 +230,8 @@ class TIDService{
             $config=config('tid');
             $client = new Client();
             
-            $client->request('GET', $config["environments"][$config["environment"]]["revoke_url"]."?token=".$this->getToken());
-            $client->request('GET', $config["environments"][$config["environment"]]["logout_url"]."?token=".$this->getToken());
+            $client->request('GET', $this->makeBaseUrl('revoke')."?token=".$this->getToken());
+            $client->request('GET', $this->makeBaseUrl('logout')."?token=".$this->getToken());
             $this->unsetAuth();
         }catch(Exception $e){
             // dd($e);
