@@ -28,7 +28,9 @@ Paràmetre |  Descripció
 VALID_CLIENT_ID | Id de client Vàlid 
 VALID_CLIENT_SECRET | Secret del client Vàlid  
 VALID_ENVIRONMENT | Entorn 'pre' o 'pro'  
-
+VALID_VERSION | 1 o 2  
+VALID_LOG | true / false (activar logs)
+TID_TEST_MODE | true / false (per desenvolupament local)
 
 Alternativament, pots publicar l'arxiu de configuració del paquet amb la comanda:
 
