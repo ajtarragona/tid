@@ -15,9 +15,9 @@ class TIDService{
 
 
 
-    public function makeBaseUrl($type, $env=null){
+    public function makeBaseUrl($type, $version=null, $env=null){
         $config=config('tid');
-        return $config["environments"][$env?$env:$config["environment"]] . '/'. $config['paths'][$type]; 
+        return $config["urls"][$version?$version:$config["version"]][$env?$env:$config["environment"]] . '/'. $config['paths'][$type]; 
 
     }
 

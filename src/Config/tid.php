@@ -11,8 +11,17 @@
             'revoke'=>'o/oauth2/revoke',
             'logout'=>'o/oauth2/logout',
         ],
-        'environments' =>[
-            'pre'=>env('VALID_PRE_URL','https://valid-pre.aoc.cat'), //https://valid-pre.aoc.cat/o/oauth2 
+        'version'=>env('VALID_VERSION', 1),
+        'urls' =>[
+            1=>[
+                'pre'=>'https://identitats-pre.aoc.cat',
+                'pro'=>'https://identitats.aoc.cat',
+            ],
+            2=>[
+                'pre'=>'https://valid-pre.aoc.cat',
+                'pro'=>'https://valid.aoc.cat',
+            ]
+            // 'pre'=>env('VALID_PRE_URL','https://valid-pre.aoc.cat'), //https://valid-pre.aoc.cat/o/oauth2 
             // [
             //     'base_url' =>'https://identitats-pre.aoc.cat', //https://valid-pre.aoc.cat/o/oauth2
             //     'auth_url' => 'https://identitats-pre.aoc.cat/o/oauth2/auth',
@@ -22,7 +31,7 @@
             //     'logout_url' => 'https://identitats-pre.aoc.cat/o/oauth2/logout',
                 
             // ],
-            'pro'=>env('VALID_PRO_URL','https://valid.aoc.cat'), //https://valid.aoc.cat/o/oauth2
+            // 'pro'=>env('VALID_PRO_URL','https://valid.aoc.cat'), //https://valid.aoc.cat/o/oauth2
             // [
             //     'base_url' =>'https://identitats.aoc.cat', //https://valid.aoc.cat/o/oauth2
             //     'auth_url' => 'https://identitats.aoc.cat/o/oauth2/auth',
