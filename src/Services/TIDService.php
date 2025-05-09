@@ -169,17 +169,15 @@ class TIDService{
                 'grant_type' => 'authorization_code',
             ];
 
-            if($config["log"]) Log::debug('TID. Calling POST: '. $url );
-            if($config["log"]) Log::debug('TID. Parameters: '. json_encode($params, JSON_PRETTY_PRINT) );
+            if($config["log"]) Log::debug('[TID] Calling POST: '. $url .' with Parameters: \n'. json_pretty($params) );
 
             $response = $client->request('POST', $url,  ['form_params'=>$params]);
 
             $token_info = json_decode($response->getBody());
-            if($config["log"]) Log::debug('TID. Return: '. json_encode($token_info, JSON_PRETTY_PRINT)  );
+            if($config["log"]) Log::debug('[TID] Return '. json_pretty($token_info)  );
             
             if($token_info->error??null){
-                if($config["log"]) Log::debug('TID. Error: '. $token_info->error );
-    
+                if($config["log"]) Log::debug('[TID] Error: '. $token_info->error );
                 abort(401,$token_info->error);
             }else{
 
@@ -193,18 +191,17 @@ class TIDService{
                 $params=[
                     'AccessToken' => $token_info->access_token,
                 ];
-                if($config["log"]) Log::debug('TID. Calling GET: '. $url );
-                if($config["log"]) Log::debug('TID. Parameters: '. json_encode($params, JSON_PRETTY_PRINT) );
+                if($config["log"]) Log::debug('[TID] Calling GET: '. $url .' with Parameters: \n'. json_pretty($params) );
     
                 $response = $client->request('GET', $url,  ['query'=>$params]);
         
                 $user_info=json_decode($response->getBody());
-                if($config["log"]) Log::debug('TID. Return: '. json_encode($user_info, JSON_PRETTY_PRINT)  );
+                if($config["log"]) Log::debug('[TID] Return \n'. json_pretty($user_info)  );
                 if(!$user_info){
-                    if($config["log"]) Log::debug('TID. Error' );
+                    if($config["log"]) Log::debug('[TID] Error' );
                     abort(401);
                 }else if($user_info->status=="ko"){
-                    if($config["log"]) Log::debug('TID. Error: '. $token_info->error );
+                    if($config["log"]) Log::debug('[TID] Error: '. $token_info->error );
                     abort(401,$user_info->error);
                 }else{
                     $this->setAuth($token_info, $user_info);
@@ -213,7 +210,7 @@ class TIDService{
             }
         }catch(Exception $e){
             // dd($e);
-            if($config["log"]) Log::debug('TID. Error: '. $e->getMessage() );
+            if($config["log"]) Log::debug('[TID] Error: '. $e->getMessage() );
                 
         }
         return false;

@@ -29,3 +29,9 @@ if (! function_exists('validLogoutButton')) {
         return tid()->renderLogoutButton($options);
     }
 }
+
+if (! function_exists('json_pretty')) {
+	function json_pretty($string) {
+	 	return json_encode($string, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+	}
+}
