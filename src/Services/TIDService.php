@@ -37,40 +37,39 @@ class TIDService{
         
     }
 
-    // MODIFICACION CARLOS PARCHE IGUALES 
-     public function cryptOriginUrl()
+    // MODIFICACION CARLOS PARCHE CACHE 
+    public function cryptOriginUrl()
     {
-        // Extrae la URL relativa (lo que ya tenías)
+        // Obtenemos la URL relativa de la petición actual
         $url = substr(request()->fullUrl(), strlen(request()->root()));
         
-        // Encripta la URL
-        $url_encriptada = Crypt::encrypt($url);
+        // Generamos un token aleatorio único
+        // Esto garantiza que el 'state' sea corto (32 caracteres)
+        $key = Str::random(32);
         
-        // SOLUCIÓN: Limpieza para que sea "URL Safe"
-        // 1. strtr sustituye '+' por '-' y '/' por '_'
-        // 2. rtrim elimina los '=' del final
-        return rtrim(strtr($url_encriptada, '+/', '-_'), '=');
+        // Guardamos en Redis la relación Token -> URL
+        Cache::put('tid_state_' . $key, $url, now()->addMinutes(60));
+        
+        return $key;
     }
-     // MODIFICACION CARLOS PARCHE IGUALES 
+     // MODIFICACION CARLOS PARCHE CACHE 
     public function getOriginUrl($encrypted)
     {
-        // 1. Restauramos los caracteres que cambiamos para la URL
-        // Convertimos los guiones '-' de vuelta a '+'
-        // Convertimos los guiones bajos '_' de vuelta a '/'
-        $original_base64 = strtr($encrypted, '-_', '+/');
+        // En este caso, $encrypted ya no es un cifrado, sino la 'key' (el token)
+        $key = $encrypted;
+        
+        // Recuperamos la URL real de Redis
+        $url = Cache::get('tid_state_' . $key);
 
-        // 2. Desciframos
-        // Importante: Crypt::decrypt utiliza base64_decode internamente,
-        // el cual ignora la falta de los '==' al final y procesa la cadena correctamente.
-        try {
-            $texto_desencriptado = Crypt::decrypt($original_base64);
-            return $texto_desencriptado;
-        } catch (\Exception $e) {
-            // Opcional: registrar el error si la desencriptación falla
-            return null; 
+        // Limpiamos la caché tras usarla (Single Use Token)
+        if ($url) {
+            Cache::forget('tid_state_' . $key);
+            return $url;
         }
-    }
 
+        // Si ha caducado o no existe, redirigimos a la raíz por seguridad
+        return '/';
+    }
     public function showLoginPage(){
         return response()->view('ajtarragona-tid::login');
     }
