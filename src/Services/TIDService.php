@@ -9,6 +9,9 @@ use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Cache; 
+use Illuminate\Support\Str;
+
 class TIDService{
 
     public static $SESSION_NAME = 'aoc_valid_info';
