@@ -37,21 +37,38 @@ class TIDService{
         
     }
 
-    public function cryptOriginUrl(){
-        $url=substr(request()->fullUrl(), strlen(request()->root()));
+    // MODIFICACION CARLOS PARCHE IGUALES 
+     public function cryptOriginUrl()
+    {
+        // Extrae la URL relativa (lo que ya tenías)
+        $url = substr(request()->fullUrl(), strlen(request()->root()));
+        
+        // Encripta la URL
         $url_encriptada = Crypt::encrypt($url);
-        // $url_encriptada = substr($url_encriptada, 0, 20);
-        // $url_encriptada = bin2hex($url_encriptada);
-        return  $url_encriptada;
-        // return  substr($url_encriptada, 0, 16);
-
-
+        
+        // SOLUCIÓN: Limpieza para que sea "URL Safe"
+        // 1. strtr sustituye '+' por '-' y '/' por '_'
+        // 2. rtrim elimina los '=' del final
+        return rtrim(strtr($url_encriptada, '+/', '-_'), '=');
     }
-    public function getOriginUrl($encrypted){
-        // Desciframos la clase encriptada
-        // $texto_desencriptado = hex2bin($url);
-        $texto_desencriptado = Crypt::decrypt($encrypted); //, config('app.key'), 'chacha20');
-        return $texto_desencriptado;
+     // MODIFICACION CARLOS PARCHE IGUALES 
+    public function getOriginUrl($encrypted)
+    {
+        // 1. Restauramos los caracteres que cambiamos para la URL
+        // Convertimos los guiones '-' de vuelta a '+'
+        // Convertimos los guiones bajos '_' de vuelta a '/'
+        $original_base64 = strtr($encrypted, '-_', '+/');
+
+        // 2. Desciframos
+        // Importante: Crypt::decrypt utiliza base64_decode internamente,
+        // el cual ignora la falta de los '==' al final y procesa la cadena correctamente.
+        try {
+            $texto_desencriptado = Crypt::decrypt($original_base64);
+            return $texto_desencriptado;
+        } catch (\Exception $e) {
+            // Opcional: registrar el error si la desencriptación falla
+            return null; 
+        }
     }
 
     public function showLoginPage(){
